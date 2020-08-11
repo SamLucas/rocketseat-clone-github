@@ -7,6 +7,8 @@ import {
   RightSide,
   Repos,
   CalendarHanding,
+  RepoIcon,
+  Tab,
 } from "./styles";
 
 import ProfileData from "../../components/ProfileData";
@@ -14,8 +16,26 @@ import RepoCard from "../../components/RepoCard";
 import RandowCalendar from "../../components/RandowCalendar";
 
 const Profile: React.FC = () => {
+  const TabContent = () => {
+    return (
+      <div className="content">
+        <RepoIcon />
+        <span className="label">Repositories</span>
+        <span className="number">6</span>
+      </div>
+    );
+  };
+
   return (
     <Container>
+      <Tab className="descktop">
+        <div className="wraper">
+          <span className="offset"></span>
+          <TabContent />
+        </div>
+        <span className="line" />
+      </Tab>
+
       <Main>
         <LeftSide>
           <ProfileData
@@ -33,9 +53,13 @@ const Profile: React.FC = () => {
           />
         </LeftSide>
         <RightSide>
+          <Tab className="mobile">
+            <TabContent />
+            <span className="line" />
+          </Tab>
+
           <Repos>
             <h2>Random Repos</h2>
-
             <div>
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <RepoCard
@@ -60,7 +84,6 @@ const Profile: React.FC = () => {
           <CalendarHanding>
             Random Calendar (do not represent actual data)
           </CalendarHanding>
-
           <RandowCalendar />
         </RightSide>
       </Main>
