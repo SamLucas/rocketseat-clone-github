@@ -16,9 +16,9 @@ export default function Navigation() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<Repo />} />
-        <Route path="/:username " element={<Repo />} />
-        <Route path="/:username/:reponame " element={<Repo />} />
+        <Route path="/" element={<Profile />} />
+        <Route path="/:username" element={<Profile />} />
+        <Route path="/:username/:reponame" element={<Repo />} />
       </Routes>
 
       <GloabalStyle />
