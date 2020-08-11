@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import Repo from "./pages/Repo";
 
+import "react-calendar-heatmap/dist/styles.css";
+
 export default function Navigation() {
   return (
     <BrowserRouter>
