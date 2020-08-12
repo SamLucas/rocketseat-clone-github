@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { RiBookMarkLine } from "react-icons/ri";
 
 export const Container = styled.div`
@@ -132,4 +132,24 @@ export const Tab = styled.div`
       }
     }
   }
+`;
+
+const containerAux = css`
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  max-width: 1280px;
+  height: calc(100vh - 20vh);
+
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ContainerError = styled.div`
+  ${containerAux}
+`;
+
+export const Loading = styled.div`
+  ${containerAux}
 `;

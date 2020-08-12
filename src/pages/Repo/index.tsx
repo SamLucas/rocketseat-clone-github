@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Container,
@@ -11,45 +11,70 @@ import {
   GitHubIcon,
 } from "./styles";
 
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { APIRepo } from "../../@types";
 
-const Repo: React.FC = () => {
+interface Data {
+  repo?: APIRepo;
+  error?: string;
+}
+
+const Repo: React.FC<Data> = () => {
+  const { username, reponame } = useParams();
+  const [data, setData] = useState<Data>();
+
+  useEffect(() => {
+    fetch(`https://api.github.com/repos/${username}/${reponame}`).then(
+      async (response) => {
+        setData(
+          response.status === 404
+            ? { error: "Repository not found!" }
+            : { repo: await response.json() }
+        );
+      }
+    );
+  }, [reponame, username]);
+
+  if (data?.error) {
+    return <h1>{data.error}</h1>;
+  }
+
+  if (!data?.repo) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <Container>
       <BreadCrum>
         <RepoIcon />
-        <Link className="username" to={"/samLucas"}>
-          SamLucas
+
+        <Link className={"username"} to={`/${username}`}>
+          {username}
         </Link>
 
         <span>/</span>
 
-        <Link className="reponame" to={"/samLucas/rocketseat-clone-github"}>
-          rocketseat-clone-github
+        <Link className={"reponame"} to={`/${username}/${reponame}`}>
+          {reponame}
         </Link>
       </BreadCrum>
 
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi suscipit
-        recusandae eaque iusto eos officia aperiam laboriosam aliquam deleniti
-        officiis? Eaque neque eveniet ducimus ipsa cupiditate officia.
-        Architecto, corporis deleniti!
-      </p>
+      <p>{data.repo.description}</p>
 
       <Stats>
         <li>
           <StarIcon />
-          <b>9</b>
-          <span>starts</span>
+          <b>{data.repo.stargazers_count}</b>
+          <span>stars</span>
         </li>
         <li>
           <ForkIcon />
-          <b>0</b>
+          <b>{data.repo.forks}</b>
           <span>forks</span>
         </li>
       </Stats>
 
-      <LinkButton href={"http://github.com/samLucas/rocketseat-clone-github"}>
+      <LinkButton href={data.repo.html_url}>
         <GitHubIcon />
         <span>View on GitHub</span>
       </LinkButton>
